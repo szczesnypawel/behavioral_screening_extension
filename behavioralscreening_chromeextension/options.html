@@ -1,0 +1,104 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Behavioral Screening Options</title>
+    <link rel="stylesheet" href="ui/styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <div class="panel">
+        <h2>Settings</h2>
+        <p>Configure target URLs and calibration behavior.</p>
+      </div>
+      <div class="panel list">
+        <div>
+          <label for="targetsCsv">Target URLs (comma-separated)</label>
+          <textarea id="targetsCsv" rows="3" placeholder="example.com/app, https://foo.com"></textarea>
+        </div>
+        <div>
+          <label for="retestDaysCsv">Retesting time (days, comma-separated)</label>
+          <textarea id="retestDaysCsv" rows="2" placeholder="30, 7"></textarea>
+        </div>
+        <div class="row">
+          <div>
+            <label for="tierExpiryDays">Tier expiry (days)</label>
+            <input id="tierExpiryDays" type="number" min="1" />
+          </div>
+          <div>
+            <label for="retakeCooldownHours">Retake cooldown (hours)</label>
+            <input id="retakeCooldownHours" type="number" min="1" />
+          </div>
+        </div>
+        <div class="row">
+          <div>
+            <label for="forceFullscreen">Force fullscreen runner</label>
+            <select id="forceFullscreen">
+              <option value="true">On</option>
+              <option value="false">Off</option>
+            </select>
+          </div>
+          <div>
+            <label for="openInCurrentTab">Open target in current tab</label>
+            <select id="openInCurrentTab">
+              <option value="false">No</option>
+              <option value="true">Yes</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label for="debugMode">Debug mode (store aggregated metrics)</label>
+          <select id="debugMode">
+            <option value="false">Off</option>
+            <option value="true">On</option>
+          </select>
+        </div>
+      </div>
+      <div class="panel list">
+        <h3>Parameter names</h3>
+        <div class="row">
+          <div>
+            <label for="paramTier">Tier param</label>
+            <input id="paramTier" type="text" />
+          </div>
+          <div>
+            <label for="paramConf">Confidence param</label>
+            <input id="paramConf" type="text" />
+          </div>
+          <div>
+            <label for="paramValid">Valid param</label>
+            <input id="paramValid" type="text" />
+          </div>
+        </div>
+        <div class="row">
+          <div>
+            <label for="paramTs">Timestamp param</label>
+            <input id="paramTs" type="text" />
+          </div>
+          <div>
+            <label for="paramExp">Expiry param</label>
+            <input id="paramExp" type="text" />
+          </div>
+          <div>
+            <label for="paramVer">Version param</label>
+            <input id="paramVer" type="text" />
+          </div>
+        </div>
+        <div>
+          <label for="paramProof">Proof param</label>
+          <input id="paramProof" type="text" />
+        </div>
+      </div>
+      <div class="panel list">
+        <button id="saveBtn">Save settings</button>
+        <button id="exportBtn" class="secondary" disabled>Debug data not available</button>
+        <div id="status" class="notice"></div>
+      </div>
+      <div class="panel">
+        <p class="notice">URL parameters are not a security boundary; they are a compatibility mechanism.</p>
+      </div>
+    </div>
+    <script type="module" src="options.js"></script>
+  </body>
+</html>

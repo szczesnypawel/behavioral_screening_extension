@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "Behavioral Screening Calibration",
+  "version": "0.1.0",
+  "description": "Local behavioral calibration battery that assigns a tier and opens a target URL with parameters.",
+  "action": {
+    "default_title": "Behavioral Screening",
+    "default_popup": "popup.html"
+  },
+  "options_page": "options.html",
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "permissions": ["storage", "tabs"],
+  "host_permissions": []
+}
