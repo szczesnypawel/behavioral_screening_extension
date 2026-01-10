@@ -142,7 +142,7 @@ function render() {
   const cooldownSeconds = cachedSettings.retakeCooldownHours * 3600;
   const canRecalibrate = now - lastResult.ts >= cooldownSeconds;
 
-  statusText.textContent = "Calibration available.";
+  statusText.textContent = "Calibration active.";
   setButtons({
     primaryLabel: "Open target",
     primaryAction: () => openTarget(targetSelect.value || 0),
