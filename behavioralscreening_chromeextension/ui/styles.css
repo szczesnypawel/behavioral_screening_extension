@@ -190,6 +190,10 @@ button:disabled {
   pointer-events: none;
 }
 
+.stop-overlay[hidden] {
+  display: none;
+}
+
 .fixation {
   font-size: 2.5rem;
   color: var(--muted);
