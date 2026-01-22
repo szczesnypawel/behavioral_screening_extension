@@ -20,6 +20,10 @@ import {
   buildTargetUrl
 } from "./ui/common.js";
 
+// Build ID for debugging reload issues
+const BUILD_ID = "B2";
+document.getElementById("versionBadge").textContent = `${getVersion()}-${BUILD_ID}`;
+
 const ui = createUi();
 const searchParams = new URLSearchParams(window.location.search);
 const targetIndex = searchParams.get("targetIndex");
@@ -225,6 +229,9 @@ function createUi() {
   const status = document.getElementById("status");
   const controls = document.getElementById("controls");
 
+  // Ensure stop overlay is hidden on init
+  stopOverlay.hidden = true;
+
   let activeKeyResolver = null;
 
   window.addEventListener("keydown", (event) => {
@@ -302,11 +309,11 @@ function createUi() {
   }
 
   function showStopSignal() {
-    stopOverlay.hidden = false;
+    stopOverlay.style.display = "flex";
   }
 
   function hideStopSignal() {
-    stopOverlay.hidden = true;
+    stopOverlay.style.display = "none";
   }
 
   function waitForKey(codes, timeoutMs) {

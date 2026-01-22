@@ -3,8 +3,13 @@ import {
   STORAGE_KEYS,
   getStorage,
   setStorage,
-  mergeSettings
+  mergeSettings,
+  getVersion
 } from "./ui/common.js";
+
+// Build ID for debugging reload issues
+const BUILD_ID = "B2";
+document.getElementById("versionBadge").textContent = `${getVersion()}-${BUILD_ID}`;
 
 const fields = {
   targetsCsv: document.getElementById("targetsCsv"),

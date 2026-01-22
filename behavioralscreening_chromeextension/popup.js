@@ -11,6 +11,10 @@ import {
   getVersion
 } from "./ui/common.js";
 
+// Build ID for debugging reload issues
+const BUILD_ID = "B2";
+document.getElementById("versionBadge").textContent = `${getVersion()}-${BUILD_ID}`;
+
 const statusText = document.getElementById("statusText");
 const tierDetails = document.getElementById("tierDetails");
 const tierBadge = document.getElementById("tierBadge");

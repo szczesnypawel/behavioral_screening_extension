@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="ui/styles.css" />
   </head>
   <body>
+    <div class="version-badge" id="versionBadge">v?</div>
     <div class="app fullscreen" id="runnerRoot">
       <div class="panel">
         <h2 id="title">Calibration Runner</h2>
@@ -16,7 +17,7 @@
       <div class="panel">
         <div id="content" class="stimulus"></div>
         <div id="options" class="grid"></div>
-        <div id="stopOverlay" class="stop-overlay" hidden>STOP</div>
+        <div id="stopOverlay" class="stop-overlay" hidden style="display:none">STOP</div>
       </div>
       <div class="panel list" id="controls">
         <button id="primaryBtn">Start calibration</button>

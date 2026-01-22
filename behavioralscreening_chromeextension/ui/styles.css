@@ -191,7 +191,7 @@ button:disabled {
 }
 
 .stop-overlay[hidden] {
-  display: none;
+  display: none !important;
 }
 
 .fixation {
@@ -232,6 +232,19 @@ button:disabled {
   inset: 0;
   background: radial-gradient(circle at top, #1b2732 0%, #0f1419 55%);
   z-index: 1000;
+}
+
+.version-badge {
+  position: fixed;
+  top: 8px;
+  right: 12px;
+  font-size: 0.7rem;
+  color: var(--muted);
+  background: var(--panel);
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  z-index: 9999;
 }
 
 @media (max-width: 600px) {
