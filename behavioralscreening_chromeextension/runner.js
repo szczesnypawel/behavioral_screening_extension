@@ -15,14 +15,13 @@ import {
   computeExpiry,
   formatDate,
   encodeProofJson,
-  getVersion,
+  VERSION,
+  BUILD_ID,
   parseTargets,
   buildTargetUrl
 } from "./ui/common.js";
 
-// Build ID for debugging reload issues
-const BUILD_ID = "B2";
-document.getElementById("versionBadge").textContent = `${getVersion()}-${BUILD_ID}`;
+document.getElementById("versionBadge").textContent = `${VERSION}-${BUILD_ID}`;
 
 const ui = createUi();
 const searchParams = new URLSearchParams(window.location.search);
@@ -83,7 +82,7 @@ async function startRun() {
   const expiry = computeExpiry(now, cachedSettings.tierExpiryDays);
 
   const scoring = scoreBattery(result.metrics, result.validity, result.validity.timingJitter);
-  const ver = getVersion();
+  const ver = VERSION;
   const proof = encodeProofJson({
     tier: scoring.tier,
     conf: scoring.conf,

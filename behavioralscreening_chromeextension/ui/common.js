@@ -172,6 +172,12 @@ export function formatDate(tsSeconds) {
   return date.toLocaleDateString();
 }
 
+// Version number - update manifest.json "version" field to bump (this reads from manifest)
+export const VERSION = chrome.runtime.getManifest().version || "0.1.0";
+
+// Build ID - increment this when making code changes to help debug reload issues
+export const BUILD_ID = "B1";
+
 export function getVersion() {
-  return chrome.runtime.getManifest().version || "0.0.0";
+  return VERSION;
 }
