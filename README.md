@@ -103,6 +103,7 @@ Three brief trials verifying the user can follow simple prompts. Flags non-compl
 - SST compliance requires stop-success rates between 20–80%
 - Response consistency checks detect random or strategic responding
 - Frame-timing jitter >10% flags environmental issues
+- Timeouts in choice/quiz tasks are treated as omissions; any omission in DD/SJT/RBC marks the run invalid (`MISSING_DATA`) and forces Tier 1
 
 Sessions with confidence below 70% are routed to Tier 1 regardless of task performance.
 

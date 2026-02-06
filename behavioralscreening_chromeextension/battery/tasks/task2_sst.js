@@ -52,11 +52,13 @@ async function runBlock(ui, trialCount, stopRate, isPractice) {
     ui.setStimulusStyle({ color: "#f2f5f7" });
     const onset = performance.now();
     let stopTimeout;
+    let ssdUsed = null;
     if (trials[i] === "stop") {
+      ssdUsed = ssd;
       stopTimeout = setTimeout(() => {
         ui.showStopSignal();
         setTimeout(() => ui.hideStopSignal(), 150);
-      }, ssd);
+      }, ssdUsed);
     }
 
     const response = await ui.waitForKey(["ArrowLeft", "ArrowRight"], 1000);
@@ -86,7 +88,9 @@ async function runBlock(ui, trialCount, stopRate, isPractice) {
       if (success) {
         stopSuccess += 1;
       }
-      ssdHistory.push(ssd);
+      if (ssdUsed !== null) {
+        ssdHistory.push(ssdUsed);
+      }
     }
 
     ui.hideStopSignal();

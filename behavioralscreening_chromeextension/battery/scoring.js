@@ -1,4 +1,26 @@
 export function scoreBattery(metrics, validity, jitterFlag) {
+  const requiredMetrics = [
+    "gng_commission_rate",
+    "sst_ssrt_est",
+    "sst_stop_success_rate",
+    "dd_auc",
+    "sjt_score",
+    "rb_correct"
+  ];
+  const omissionKeys = ["dd_omissions", "sjt_omissions", "rb_omissions"];
+  const hasOmissions = omissionKeys.some(
+    (key) => Number.isFinite(metrics?.[key]) && metrics[key] > 0
+  );
+
+  if (!metrics || requiredMetrics.some((key) => !Number.isFinite(metrics[key])) || hasOmissions) {
+    return {
+      tier: 1,
+      conf: 0,
+      valid: false,
+      reason_codes: ["MISSING_DATA"]
+    };
+  }
+
   let conf = 100;
   const reasons = new Set();
 

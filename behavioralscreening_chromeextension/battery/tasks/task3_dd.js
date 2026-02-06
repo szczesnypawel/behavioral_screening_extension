@@ -15,6 +15,7 @@ export const task3 = {
     const indifference = [];
     const rtAll = [];
     let maxInconsistency = 0;
+    let omissions = 0;
 
     for (const delay of delays) {
       let nowValue = 50;
@@ -26,7 +27,13 @@ export const task3 = {
           `Option A: ${nowValue} tokens now`,
           `Option B: 100 tokens in ${delay} days`
         );
-        rtAll.push(choice.rt);
+        if (choice.timedOut) {
+          omissions += 1;
+          continue;
+        }
+        if (Number.isFinite(choice.rt)) {
+          rtAll.push(choice.rt);
+        }
 
         if (lastChoice && lastChoice !== choice.value) {
           inconsistency += 1;
@@ -49,22 +56,25 @@ export const task3 = {
       .sort((a, b) => a[0] - b[0]);
 
     let aucValue = 0;
-    for (let i = 1; i < points.length; i += 1) {
-      const [x0, y0] = points[i - 1];
-      const [x1, y1] = points[i];
-      aucValue += (x1 - x0) * (y0 + y1) / 2;
+    if (omissions === 0) {
+      for (let i = 1; i < points.length; i += 1) {
+        const [x0, y0] = points[i - 1];
+        const [x1, y1] = points[i];
+        aucValue += (x1 - x0) * (y0 + y1) / 2;
+      }
     }
 
     const medianRt = median(rtAll);
 
     return {
       metrics: {
-        dd_auc: Number(aucValue.toFixed(3)),
+        dd_auc: omissions === 0 ? Number(aucValue.toFixed(3)) : null,
         dd_inconsistency: maxInconsistency,
-        dd_median_rt: Math.round(medianRt)
+        dd_median_rt: Math.round(medianRt),
+        dd_omissions: omissions
       },
       validity: {
-        ddImplausible: maxInconsistency >= 2 || medianRt < 250
+        ddImplausible: omissions > 0 || maxInconsistency >= 2 || (medianRt > 0 && medianRt < 250)
       }
     };
   }

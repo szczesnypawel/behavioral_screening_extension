@@ -353,6 +353,7 @@ export const task4 = {
     const responses = [];
     const scores = [];
     const rts = [];
+    let omissions = 0;
 
     for (const scenario of SCENARIOS) {
       const prompt = pickVariant(scenario.prompt);
@@ -366,9 +367,15 @@ export const task4 = {
       }));
 
       const choice = await ui.showQuestion(prompt, shuffled);
+      if (choice.timedOut) {
+        omissions += 1;
+        continue;
+      }
       responses.push({ scenarioId: scenario.id, score: choice.score });
       scores.push(choice.score);
-      rts.push(choice.rt);
+      if (Number.isFinite(choice.rt)) {
+        rts.push(choice.rt);
+      }
     }
 
     const totalScore = scores.reduce((sum, value) => sum + value, 0);
@@ -379,17 +386,22 @@ export const task4 = {
       return acc;
     }, {});
 
+    const hasScenario1 = Object.prototype.hasOwnProperty.call(scoreByScenario, 1);
+    const hasScenario8 = Object.prototype.hasOwnProperty.call(scoreByScenario, 8);
     const inconsistent =
-      (scoreByScenario[1] === 2 && scoreByScenario[8] === 0) ||
-      (scoreByScenario[1] === 0 && scoreByScenario[8] === 2);
+      hasScenario1 &&
+      hasScenario8 &&
+      ((scoreByScenario[1] === 2 && scoreByScenario[8] === 0) ||
+        (scoreByScenario[1] === 0 && scoreByScenario[8] === 2));
 
     return {
       metrics: {
-        sjt_score: totalScore,
-        sjt_median_rt: Math.round(medianRt)
+        sjt_score: omissions === 0 ? totalScore : null,
+        sjt_median_rt: Math.round(medianRt),
+        sjt_omissions: omissions
       },
       validity: {
-        sjtImplausible: inconsistent || medianRt < 400
+        sjtImplausible: omissions > 0 || inconsistent || (medianRt > 0 && medianRt < 400)
       }
     };
   }

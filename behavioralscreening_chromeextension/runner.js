@@ -369,23 +369,27 @@ function createUi() {
     let resolveChoice;
     let resolved = false;
     const promise = new Promise((resolve) => {
-      resolveChoice = (opt) => {
+      resolveChoice = (opt, timedOut = false) => {
         if (resolved) return;
         resolved = true;
         activeKeyResolver = null;
-        resolve({ value: opt.value, rt: performance.now() - start });
+        resolve({
+          value: opt ? opt.value : null,
+          rt: timedOut ? null : performance.now() - start,
+          timedOut
+        });
       };
     });
 
     waitForKey(["Digit1", "Digit2"], 10000).then((response) => {
       if (resolved) return;
       if (response.timedOut) {
-        resolveChoice(optionElements[1]);
+        resolveChoice(null, true);
         return;
       }
       const opt = optionElements.find((item) => item.key === response.code);
       if (opt) {
-        resolveChoice(opt);
+        resolveChoice(opt, false);
       }
     });
 
@@ -402,11 +406,11 @@ function createUi() {
     let resolveChoice;
     let resolved = false;
     const promise = new Promise((resolve) => {
-      resolveChoice = (payload) => {
+      resolveChoice = (payload, timedOut = false) => {
         if (resolved) return;
         resolved = true;
         activeKeyResolver = null;
-        resolve(payload);
+        resolve({ ...payload, timedOut });
       };
     });
 
@@ -425,12 +429,12 @@ function createUi() {
     waitForKey(["Digit1", "Digit2", "Digit3", "Digit4"], 15000).then((response) => {
       if (resolved) return;
       if (response.timedOut) {
-        resolveChoice({ ...optionElements[0].choice, rt: performance.now() - start });
+        resolveChoice({ rt: null }, true);
         return;
       }
       const match = optionElements.find((item) => item.key === response.code);
       if (match) {
-        resolveChoice({ ...match.choice, rt: performance.now() - start });
+        resolveChoice({ ...match.choice, rt: performance.now() - start }, false);
       }
     });
 

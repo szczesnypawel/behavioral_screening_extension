@@ -269,6 +269,7 @@ export const task5 = {
     const shuffledItems = shuffle(ITEMS);
     const rts = [];
     let correct = 0;
+    let omissions = 0;
 
     for (const item of shuffledItems) {
       const prompt = pickVariant(item.prompt);
@@ -279,7 +280,13 @@ export const task5 = {
       const shuffled = shuffle(options);
 
       const choice = await ui.showQuestion(prompt, shuffled);
-      rts.push(choice.rt);
+      if (choice.timedOut) {
+        omissions += 1;
+        continue;
+      }
+      if (Number.isFinite(choice.rt)) {
+        rts.push(choice.rt);
+      }
       if (choice.correct) {
         correct += 1;
       }
@@ -289,11 +296,12 @@ export const task5 = {
 
     return {
       metrics: {
-        rb_correct: correct,
-        rb_median_rt: Math.round(medianRt)
+        rb_correct: omissions === 0 ? correct : null,
+        rb_median_rt: Math.round(medianRt),
+        rb_omissions: omissions
       },
       validity: {
-        rbImplausible: medianRt < 350
+        rbImplausible: omissions > 0 || (medianRt > 0 && medianRt < 350)
       }
     };
   }
